@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ recipe.name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <a href="{{ url_for('index') }}" class="back-link">⬅ Back</a>
+
+    <div class="recipe-detail">
+      <h1>{{ recipe.name }}</h1>
+
+      {% if recipe.image %}
+        <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}">
+      {% endif %}
+
+      <h2>Ingredients</h2>
+      <p>{{ recipe.ingredients }}</p>
+
+      <h2>Instructions</h2>
+      <p>{{ recipe.instructions }}</p>
+
+      <form method="post" action="{{ url_for('delete_recipe', recipe_id=recipe.id) }}">
+        <button type="submit" class="delete-btn">🗑 Delete Recipe</button>
+      </form>
+    </div>
+  </div>
+</body>
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-messages">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+</html>
+
+
+
